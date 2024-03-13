@@ -8,6 +8,8 @@ for (const [key, val] of Object.entries(html)) {
     res.sendFile(__dirname + val);
   });
 }
-app.listen(5475, () => {
-  console.log("雨过不知龙去除，一池藻色万娃鸣 http://localhost:5475");
+const translate = require('./router/translate')
+app.use('/translate',translate)
+app.listen(5478, () => {
+  console.log(" http://localhost:5478");
 });

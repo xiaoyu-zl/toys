@@ -1,0 +1,56 @@
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.select_box {
+  width: 200px;
+  height: 36px;
+  border: 1px solid #3cf;
+  position: relative;
+  /* float: left; */
+}
+
+.select_box span {
+  display: inline-block;
+  width: 200px;
+  height: 36px;
+  line-height: 36px;
+  cursor: pointer;
+  text-indent: 10px;
+}
+
+.select_box .span_aa {
+  color: #c36;
+}
+
+.select_box ul {
+  width: 200px;
+  position: absolute;
+  top: 36px;
+  left: -1px;
+  border: 1px solid #3cf;
+  display: none;
+  background: #fff;
+}
+
+.select_box li {
+  cursor: pointer;
+  line-height: 36px;
+  text-indent: 10px;
+}
+
+.select_box li:hover {
+  background: #39f;
+  color: #fff;
+}
+
+.select_box font {
+  position: absolute;
+  right: 10px;
+  font-size: 26px;
+  font-family: "微软雅黑";
+  color: #3cf;
+  transform: rotate(90deg);
+}
