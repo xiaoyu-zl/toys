@@ -57,7 +57,10 @@
     <div class="prompt"></div>
     <script>
       let host = ["localhost", "127.0.0.1"];
-      let prefix = host.includes(window.location.hostname) ? "" : "/toys";
+    const { protocol, host: LocationHost } = location;
+    const inHost = `${protocol}//${LocationHost}`;
+    let prefix =
+      inHost + (host.includes(window.location.hostname) ? "" : "/toys");
     </script>
     <script src="./js/index.js"></script>
   </body>
