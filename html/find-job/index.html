@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>find-job</title>
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+  <body>
+    <div class="main">
+      <div class="demand card">
+        <div class="form">
+          <div class="rows">
+            <div class="form-item">
+              <div class="form-title">OpenAI</div>
+              <input
+                type="text"
+                class="input openURL"
+                placeholder="请输入api接口"
+              />
+            </div>
+            <div class="form-item">
+              <div class="form-title">apiKey</div>
+              <input
+                type="password"
+                class="input apiKey"
+                placeholder="请输入apiKey"
+              />
+            </div>
+            <div class="form-item"></div>
+            <div class="form-item"></div>
+          </div>
+          <div class="rows">
+            <div class="form-item">
+              <div class="form-title">公司的要求</div>
+              <textarea
+                class="mo-textarea jobDescription"
+                placeholder="请输入应聘公司的要求"
+              ></textarea>
+            </div>
+            <div class="form-item">
+              <div class="form-title">简历信息</div>
+              <textarea
+                class="mo-textarea resumeInfo"
+                placeholder="请输入个人简历信息"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <button class="btn send">获取回复</button>
+      </div>
+      <div class="reply card">
+        <button class="btn copy">copy</button>
+        <div class="content"></div>
+      </div>
+    </div>
+    <div class="prompt"></div>
+    <script>
+      let host = ["localhost", "127.0.0.1"];
+      let prefix = host.includes(window.location.hostname) ? "" : "/toys";
+    </script>
+    <script src="./js/index.js"></script>
+  </body>
+</html>
