@@ -80,8 +80,10 @@
     </main>
   </body>
   <script>
+    let host = ["localhost", "127.0.0.1"];
+    let prefix = host.includes(window.location.hostname) ? "" : "/toys";
     const getMenu = async () => {
-      const { data } = await fetch("/menu").then((res) => res.json());
+      const { data } = await fetch(`${prefix}/menu`).then((res) => res.json());
       let cmp = "";
       for (const item of data) {
         cmp += `<a class="toy" target="_blank" href="${item.path}">
