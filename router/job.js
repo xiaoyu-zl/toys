@@ -40,7 +40,6 @@ async function chat(askMessage) {
       data: formattedMessage,
     };
   } catch (error) {
-    console.error(`gpt返回时发生错误: ${error}`);
     const errorResponse = JSON.stringify({ error: String(error) });
     return {
       success: false,
@@ -52,7 +51,6 @@ async function chat(askMessage) {
 
 router.get("/gpt3", async (req, res) => {
   const { openURL, apiKey, resumeInfo, jobDescription } = req.query;
-  console.log(openURL, apiKey, resumeInfo, jobDescription);
   if (!(openURL === parameter.openURL && apiKey === parameter.apiKey)) {
     parameter = { openURL, apiKey };
     openai = openinit(openURL, apiKey);
