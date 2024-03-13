@@ -40,7 +40,6 @@ for (const [key, val] of [...htmlKeyValList, ...homeKeyVal]) {
           createdDate,
           key,
         });
-        console.log(key);
       }
       app.get(urlPath, (req, res) => {
         res.sendFile(__dirname + val);
