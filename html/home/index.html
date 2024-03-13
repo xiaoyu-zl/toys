@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
   <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -96,15 +96,20 @@
     const inHost = `${protocol}//${LocationHost}`;
     let prefix =
       inHost + (host.includes(window.location.hostname) ? "" : "/toys");
-    const getMenu = async () => {
-      const { data } = await fetch(`${prefix}/menu`).then((res) => res.json());
+
+    const getMenu = () => {
+      const { menuVal } = document.documentElement.dataset;
+
+      // const { data } = await fetch(`${ prefix }/menu`).then(( res ) => res.json());
       let cmp = "";
-      for (const item of data) {
-        cmp += `<a class="toy" target="_blank" href="${prefix}${item.path}">
-                  <div class="toy-title">${item.title}</div>
-                  <div class="toy-content">${item.content}</div>
-                  <div class="toy-date">${item.date}</div>
-              </a>`;
+      for (const { author, createdDate, key, text, titleText } of JSON.parse(
+        menuVal,
+      )) {
+        cmp += `<a class="toy" target="_blank" href="${prefix}${key}/">
+                <div class="toy-title">${titleText}</div>
+                <div class="toy-content">${text}</div>
+                <div class="toy-date">${createdDate}</div>
+            </a>`;
       }
       document.querySelector(".toys").insertAdjacentHTML("beforeEnd", cmp);
     };
