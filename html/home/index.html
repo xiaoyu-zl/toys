@@ -83,36 +83,5 @@
       }
     </style>
   </head>
-  <body>
-    <main class="main">
-      <div class="edition">
-        <div class="toys"></div>
-      </div>
-    </main>
-  </body>
-  <script>
-    let host = ["localhost", "127.0.0.1"];
-    const { protocol, host: LocationHost } = location;
-    const inHost = `${protocol}//${LocationHost}`;
-    let prefix =
-      inHost + (host.includes(window.location.hostname) ? "" : "/toys");
-
-    const getMenu = () => {
-      const { menuVal } = document.documentElement.dataset;
-
-      // const { data } = await fetch(`${ prefix }/menu`).then(( res ) => res.json());
-      let cmp = "";
-      for (const { author, createdDate, key, text, titleText } of JSON.parse(
-        menuVal,
-      )) {
-        cmp += `<a class="toy" target="_blank" href="${prefix}${key}/">
-                <div class="toy-title">${titleText}</div>
-                <div class="toy-content">${text}</div>
-                <div class="toy-date">${createdDate}</div>
-            </a>`;
-      }
-      document.querySelector(".toys").insertAdjacentHTML("beforeEnd", cmp);
-    };
-    getMenu();
-  </script>
+  <body></body>
 </html>

@@ -1,6 +1,6 @@
 const express = require("express");
 const fs = require("fs");
-const { getHtmlMeatAndTitle, substringHtml } = require("./utils/index");
+const { getHtmlMeatAndTitle, initHtml } = require("./utils/index");
 const app = express();
 app.use(express.static("html"));
 const { readDirSync } = require("./registered/htmlRegistered");
@@ -20,14 +20,10 @@ for (const [key, val] of [...htmlKeyValList, ...homeKeyVal]) {
     const data = fs.readFileSync(__dirname + val, "utf8");
     if (isHome) {
       urlPath = "/";
-
-      const [htmlStart, htmlEnd] = substringHtml(data);
-      const htmlString = `${htmlStart} data-menu-val=${JSON.stringify(
-        htmlDestArrays,
-      )}  ${htmlEnd}`;
+      const html = initHtml(data, htmlDestArrays);
       app.get(urlPath, (req, res) => {
         res.setHeader("Content-Type", "text/html");
-        res.send(htmlString);
+        res.send(html);
       });
     } else {
       if (!!data) {
