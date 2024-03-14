@@ -1,5 +1,6 @@
 const fs = require("fs");
 const { resolve, sep } = require("path");
+// 传入一个html字符串 利用正则把title标签内容过滤出来
 const extractTitle = (htmlString) => {
   const titleRegex = /<title>(.*?)<\/title>/;
   const match = htmlString.match(titleRegex);
@@ -9,6 +10,7 @@ const extractTitle = (htmlString) => {
     return null;
   }
 };
+// 传入一个html字符串 利用正则把所有meta标签过滤出来 返回一个对象 把meta标签name属性当做key，content属性当做value
 const extractMetaTags = (htmlString) => {
   const metaTags = {};
   const metaRegex = /<meta\s+name="([^"]+)"\s+content="([^"]+)"\s*\/?>/g;
@@ -20,6 +22,19 @@ const extractMetaTags = (htmlString) => {
   }
   return metaTags;
 };
+// 传入一个html字符串 利用正则在任意标签最后面插入一段字符串
+function insertStringAfterTag(htmlString, insertString, tagName = "body") {
+  const tagRegex = new RegExp(`<${tagName}[^>]*>[\\s\\S]*?<\\/${tagName}>`);
+  const match = htmlString.match(tagRegex);
+
+  if (match) {
+    const newHtmlString = htmlString.replace(tagRegex, match[0] + insertString);
+    return newHtmlString;
+  } else {
+    return htmlString;
+  }
+}
+// 根据html字符串获取Meat & Title 数据
 const getHtmlMeatAndTitle = (html) => {
   //获取页签标题
   const titleText = extractTitle(html);
@@ -33,49 +48,50 @@ const getHtmlMeatAndTitle = (html) => {
   const [authorText, createdDate] = author.split("~");
   return [titleText, description, authorText, createdDate];
 };
-const substringHtml = (html, ruleStart = "<html") => {
-  const htmlStareIndex = html.indexOf(ruleStart);
-  const headerItem = html.substring(0, htmlStareIndex + ruleStart.length);
-  const endHtml = html.substring(
-    htmlStareIndex + ruleStart.length,
-    html.length,
-  );
-  return [headerItem, endHtml];
+// 获取 bodyItem
+const getbodyItem = (homeOptions) => {
+  return `
+            <main class="main">
+              <div class="edition">
+                <div class="toys">
+                ${homeOptions
+                  .map((val, index) => {
+                    const { key, titleText, text, createdDate } = val;
+                    return `<a class="toy slide-enter" style="--enter-stage:${
+                      index + 1
+                    }; --enter-step: 60ms;" data-to-link=${key} target="_blank" href="/">
+                            <div class="toy-title">${titleText}</div>
+                            <div class="toy-content">${text}</div>
+                            <div class="toy-date">${createdDate}</div>
+                          </a>`;
+                  })
+                  .join("")}
+                </div>
+              </div>
+            </main>
+          `;
 };
-
-const initHtml = (html, homeOptions) => {
-  const jsPath = (__dirname + "/localHost.js")
+// 获取homeHTML
+const initHomeHtml = (html, homeOptions) => {
+  const jsPath = (__dirname + "/homeScript.js")
     .replaceAll("/", sep)
     .replaceAll("\\", sep);
   const js = fs.readFileSync(jsPath, "utf8");
-  const bodyItem = `
-<main class="main">
-  <div class="edition">
-    <div class="toys">
-    ${homeOptions
-      .map((val, index) => {
-        const { key, titleText, text, createdDate } = val;
-        return `<a class="toy slide-enter" style="--enter-stage:${
-          index + 1
-        }; --enter-step: 60ms;" data-to-link=${key} target="_blank" href="/">
-                <div class="toy-title">${titleText}</div>
-                <div class="toy-content">${text}</div>
-                <div class="toy-date">${createdDate}</div>
-              </a>`;
-      })
-      .join("")}
-    </div>
-  </div>
-</main>
-`;
-  const scriptCode = ` <script defer>
-${js}
-</script>`;
-  const [startBody, endBody] = substringHtml(html, "<body>");
-  return startBody + bodyItem + scriptCode + endBody;
+  const bodyItem = getbodyItem(homeOptions);
+  const scriptCode = ` <script defer>${js}</script>`;
+  return insertStringAfterTag(html, bodyItem + scriptCode);
+};
+// 常规html
+const initHtml = (html) => {
+  const jsPath = (__dirname + "/htmlScript.js")
+    .replaceAll("/", sep)
+    .replaceAll("\\", sep);
+  const js = fs.readFileSync(jsPath, "utf8");
+  const scriptCode = ` <script defer>${js}</script>`;
+  return insertStringAfterTag(html, scriptCode);
 };
 module.exports = {
   getHtmlMeatAndTitle,
-  substringHtml,
+  initHomeHtml,
   initHtml,
 };
