@@ -50,20 +50,22 @@ const initHtml = (html, homeOptions) => {
   const js = fs.readFileSync(jsPath, "utf8");
   const bodyItem = `
 <main class="main">
-<div class="edition">
-  <div class="toys">
-  ${homeOptions
-    .map((i) => {
-      const { key, titleText, text, createdDate } = i;
-      return `<a class="toy" data-to-link=${key} target="_blank" href="/">
-    <div class="toy-title">${titleText}</div>
-    <div class="toy-content">${text}</div>
-    <div class="toy-date">${createdDate}</div>
-</a>`;
-    })
-    .join("")}
+  <div class="edition">
+    <div class="toys">
+    ${homeOptions
+      .map((val, index) => {
+        const { key, titleText, text, createdDate } = val;
+        return `<a class="toy slide-enter" style="--enter-stage:${
+          index + 1
+        }; --enter-step: 60ms;" data-to-link=${key} target="_blank" href="/">
+                <div class="toy-title">${titleText}</div>
+                <div class="toy-content">${text}</div>
+                <div class="toy-date">${createdDate}</div>
+              </a>`;
+      })
+      .join("")}
+    </div>
   </div>
-</div>
 </main>
 `;
   const scriptCode = ` <script defer>
