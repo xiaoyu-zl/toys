@@ -6,7 +6,7 @@ const {
   initHtml,
 } = require("./utils/index");
 const app = express();
-app.use(express.static("html"));
+
 const { readDirSync } = require("./registered/htmlRegistered");
 let html = readDirSync("html");
 
@@ -18,6 +18,7 @@ const htmlDestArrays = [];
 for (const [key, val] of [...htmlKeyValList, ...homeKeyVal]) {
   const isHome = key === "/home";
   let urlPath = isHome ? "/" : key;
+  let returnHtml;
   try {
     if (!isHome) {
       const data = fs.readFileSync(__dirname + val, "utf8");
@@ -32,16 +33,17 @@ for (const [key, val] of [...htmlKeyValList, ...homeKeyVal]) {
           key,
         });
       }
+      returnHtml = initHtml(data);
+    } else {
+      returnHtml = initHomeHtml(
+        fs.readFileSync(__dirname + val, "utf8"),
+        htmlDestArrays,
+      );
     }
     //读取html内容
-    console.log(urlPath);
     app.get(urlPath, (req, res) => {
-      console.log(urlPath);
-      const html = isHome
-        ? initHomeHtml(fs.readFileSync(__dirname + val, "utf8"), htmlDestArrays)
-        : initHtml(__dirname + val);
       res.setHeader("Content-Type", "text/html");
-      res.send(html);
+      res.send(returnHtml);
     });
   } catch (err) {
     console.error("get HTML error", err);
@@ -52,6 +54,8 @@ const translate = require("./router/translate");
 app.use("/translate", translate);
 const job = require("./router/job");
 app.use("/job", job);
+// TODO 静态资源中间件挂载顺序在接口定义之前执行优先级会比接口高。
+app.use(express.static("html"));
 app.listen(5478, () => {
   console.log(" http://localhost:5478");
 });
