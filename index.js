@@ -3,37 +3,40 @@ const fs = require("fs");
 const app = express();
 const expressWs = require("express-ws");
 const chokidar = require("chokidar");
+const { NODE_ENV } = require("./env");
 const {
   getHtmlMeatAndTitle,
   initHomeHtml,
   initHtml,
 } = require("./utils/index");
-expressWs(app);
-// 存储 WebSocket 客户端列表
 const clients = [];
-// WebSocket 路由
-app.ws("/reload", (ws, req) => {
-  // 将新连接的客户端添加到列表
-  clients.push(ws);
-  ws.on("close", () => {
-    // 当连接关闭时，从列表中移除
-    clients.splice(clients.indexOf(ws), 1);
+if (NODE_ENV === "dev") {
+  expressWs(app);
+  // 存储 WebSocket 客户端列表
+  // WebSocket 路由
+  app.ws("/reload", (ws, req) => {
+    // 将新连接的客户端添加到列表
+    clients.push(ws);
+    ws.on("close", () => {
+      // 当连接关闭时，从列表中移除
+      clients.splice(clients.indexOf(ws), 1);
+    });
   });
-});
 
-// 监听 HTML 文件的变化
-const htmlWatcher = chokidar.watch("html", {
-  ignored: /[\/\\]\./,
-  persistent: true,
-});
-htmlWatcher.on("change", () => {
-  // 发送消息给所有连接的客户端
-  for (const client of clients) {
-    if (client.readyState === client.OPEN) {
-      client.send("reload");
+  // 监听 HTML 文件的变化
+  const htmlWatcher = chokidar.watch("html", {
+    ignored: /[\/\\]\./,
+    persistent: true,
+  });
+  htmlWatcher.on("change", () => {
+    // 发送消息给所有连接的客户端
+    for (const client of clients) {
+      if (client.readyState === client.OPEN) {
+        client.send("reload");
+      }
     }
-  }
-});
+  });
+}
 const { readDirSync } = require("./registered/htmlRegistered");
 let html = readDirSync("html");
 const htmlKeyValList = Object.entries(html);
@@ -89,12 +92,14 @@ app.use("/job", job);
 app.use(express.static("html"));
 app.listen(5478, () => {
   // 重新启动1.5秒后发现服务 发送通知给 WebSocket 客户端
-  setTimeout(() => {
-    for (const client of clients) {
-      if (client.readyState === client.OPEN) {
-        client.send("reload");
+  if (NODE_ENV === "dev") {
+    setTimeout(() => {
+      for (const client of clients) {
+        if (client.readyState === client.OPEN) {
+          client.send("reload");
+        }
       }
-    }
-  }, 1500);
+    }, 1500);
+  }
   console.log(" http://localhost:5478");
 });

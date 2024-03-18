@@ -1,5 +1,7 @@
 const fs = require("fs");
 const { resolve, sep } = require("path");
+const { NODE_ENV } = require("../env");
+let env = NODE_ENV === "dev";
 // 传入一个html字符串 利用正则把title标签内容过滤出来
 const extractTitle = (htmlString) => {
   const titleRegex = /<title>(.*?)<\/title>/;
@@ -71,23 +73,26 @@ const getbodyItem = (homeOptions) => {
             </main>
           `;
 };
+const getPath = (path) => {
+  return (__dirname + path).replaceAll("/", sep).replaceAll("\\", sep);
+};
 // 获取homeHTML
 const initHomeHtml = (html, homeOptions) => {
-  const jsPath = (__dirname + "/homeScript.js")
-    .replaceAll("/", sep)
-    .replaceAll("\\", sep);
+  const jsPath = getPath("/homeScript.js");
+  const socketPath = getPath("/htmlSocket.js");
   const js = fs.readFileSync(jsPath, "utf8");
+  const socket = env ? fs.readFileSync(socketPath, "utf8") : "";
   const bodyItem = getbodyItem(homeOptions);
-  const scriptCode = ` <script defer>${js}</script>`;
+  const scriptCode = ` <script defer>${js}${socket}</script>`;
   return insertStringAfterTag(html, bodyItem + scriptCode);
 };
 // 常规html
 const initHtml = (html) => {
-  const jsPath = (__dirname + "/htmlScript.js")
-    .replaceAll("/", sep)
-    .replaceAll("\\", sep);
+  const jsPath = getPath("/htmlScript.js");
+  const socketPath = getPath("/htmlSocket.js");
   const js = fs.readFileSync(jsPath, "utf8");
-  const scriptCode = ` <script defer>${js}</script>`;
+  const socket = env ? fs.readFileSync(socketPath, "utf8") : "";
+  const scriptCode = ` <script defer>${js}${socket}</script>`;
   return insertStringAfterTag(html, scriptCode);
 };
 module.exports = {
