@@ -2,8 +2,8 @@ import { initCanvas, polar2cart, r15, r180, r90, rangeRandom } from "./plum.js";
 const canvas = document.querySelector(".plum");
 
 const { random } = Math;
-let init = 6;
-let len = 5;
+let init = 4;
+let len = 6;
 let f = {
   start: () => {},
 };
@@ -32,15 +32,9 @@ const step = (x, y, rad) => {
 };
 const frame = () => {
   iterations += 1;
-  const tasks = [];
-  steps = steps.filter((i) => {
-    if (Math.random() > 0.4) {
-      tasks.push(i);
-      return false;
-    }
-    return true;
-  });
-  for (const fn of tasks) {
+  const prevSteps = [...steps];
+  steps = [];
+  for (const fn of prevSteps) {
     fn();
   }
 };
@@ -61,9 +55,9 @@ f.start = () => {
   ctx.clearRect(0, 0, width, height);
   ctx.lineWidth = 1;
   ctx.strokeStyle = "#88888825"; //中度灰 支持暗黑模式
-  // 控制生长范围 去除两边百分之20
-  let rangeWidth = width * 0.2;
-  let rangeHeight = height * 0.2;
+  // 控制生长范围 去除两边百分之30
+  let rangeWidth = parseInt(width * 0.3);
+  let rangeHeight = parseInt(height * 0.3);
   steps =
     width <= 500
       ? [

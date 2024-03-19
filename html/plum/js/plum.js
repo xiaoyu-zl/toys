@@ -32,6 +32,6 @@ export function polar2cart(x = 0, y = 0, r = 0, theta = 0) {
 }
 
 // 随机数 范围随机
-export const rangeRandom = (max, min) => {
-  return Math.round((Math.random() * (max - min) + min) * 10) / 10;
+export const rangeRandom = (min, max) => {
+  return parseInt(Math.round((Math.random() * (max - min) + min) * 10) / 10);
 };
