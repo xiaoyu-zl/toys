@@ -25,9 +25,9 @@ toggle.addEventListener("click", () => {
   // 设置主题
   setHTMLProperty();
   theme = !theme;
-  console.log(theme);
   toggle_icon.src = theme ? "./svg/moon.svg" : "./svg/sun.svg";
   // 保存消息到 localStorage 中
+  localStorage.setItem("theme", theme ? "dark" : "light");
   localStorage.setItem(
     "message",
     JSON.stringify({
