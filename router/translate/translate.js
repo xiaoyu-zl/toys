@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const axios = require("axios");
-const { truncate } = require("./translateUtils/index.js");
-const { MD5 } = require("./translateUtils/md5.js");
+const { truncate } = require("../../utils/truncate.js");
+const { MD5 } = require("../../utils/md5.js");
 const CryptoJS = require("crypto-js");
 router
   .get("/youDaoApi", (req, resd) => {

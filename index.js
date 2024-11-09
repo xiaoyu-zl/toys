@@ -84,10 +84,12 @@ try {
 } catch (err) {
   console.error("get HTML error", err);
 }
-const translate = require("./router/translate");
+const translate = require("./router/translate/translate");
 app.use("/translate", translate);
-const job = require("./router/job");
+const job = require("./router/job/job");
 app.use("/job", job);
+const eat = require("./router/eat/eat");
+app.use("/eat", eat);
 // TODO 静态资源中间件挂载顺序在接口定义之前执行优先级会比接口高。
 app.use(express.static("html"));
 app.listen(5478, () => {
