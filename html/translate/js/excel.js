@@ -7,6 +7,7 @@ import { exportJSONExcel } from "../utils/excelExport.js";
 let totality = document.querySelector(".totality");
 let current = document.querySelector(".current");
 let abnormal = document.querySelector(".abnormal");
+import { calculateLength } from "../utils/index.js";
 const excelLoad = async () => {
   const excelBtn = document.querySelector(".btn_excel");
   excelBtn.onclick = () => {
@@ -19,29 +20,36 @@ const excelLoad = async () => {
 };
 const youDao = async () => {
   const jsonValues = {};
-  totality.innerHTML = Object.keys(fileData).length.toString();
+  totality.innerHTML = calculateLength(fileData);
   current.innerHTML = "0";
   abnormal.innerHTML = "0";
-  for (const [key, val] of Object.entries(fileData)) {
-    try {
-      const {
-        query,
-        translation: [valText],
-      } = await youDaotranslation(val);
-      jsonValues[key] = {
-        [from]: query,
-        [to]: valText,
-      };
-    } catch (error) {
-      console.error(`${key}翻译出错;`, error);
-      jsonValues[key] = {
-        [from]: null,
-        [to]: null,
-      };
-      abnormal.innerHTML = (Number(abnormal.innerHTML) + 1).toString();
+  const helper = async (currentObj) => {
+    for (const [key, value] of Object.entries(currentObj)) {
+      if (typeof value === "object" && value !== null) {
+        await helper(value);
+      } else {
+        try {
+          const {
+            query,
+            translation: [valText],
+          } = await youDaotranslation(value);
+          jsonValues[key] = {
+            [from]: query,
+            [to]: valText,
+          };
+        } catch (error) {
+          console.error(`${key}翻译出错;`, error);
+          jsonValues[key] = {
+            [from]: value,
+            [to]: null,
+          };
+          abnormal.innerHTML = (Number(abnormal.innerHTML) + 1).toString();
+        }
+        current.innerHTML = (Number(current.innerHTML) + 1).toString();
+      }
     }
-    current.innerHTML = (Number(current.innerHTML) + 1).toString();
-  }
+  };
+  await helper(fileData);
   const data = Object.entries(jsonValues).map(([key, val]) => {
     return { index: key, ...val };
   });
@@ -54,28 +62,35 @@ const youDao = async () => {
 };
 const baiDu = async () => {
   const jsonValues = {};
-  totality.innerHTML = Object.keys(fileData).length.toString();
+  totality.innerHTML = calculateLength(fileData);
   current.innerHTML = "0";
   abnormal.innerHTML = "0";
-  for (const [key, val] of Object.entries(fileData)) {
-    try {
-      const {
-        trans_result: [{ dst, src }],
-      } = await baiDutranslation(val);
-      jsonValues[key] = {
-        [from]: src,
-        [to]: dst,
-      };
-    } catch (error) {
-      console.error(`${key}翻译出错;`, error);
-      jsonValues[key] = {
-        [from]: null,
-        [to]: null,
-      };
-      abnormal.innerHTML = (Number(abnormal.innerHTML) + 1).toString();
+  const helper = async (currentObj) => {
+    for (const [key, value] of Object.entries(currentObj)) {
+      if (typeof value === "object" && value !== null) {
+        await helper(value);
+      } else {
+        try {
+          const {
+            trans_result: [{ dst, src }],
+          } = await baiDutranslation(value);
+          jsonValues[key] = {
+            [from]: src,
+            [to]: dst,
+          };
+        } catch (error) {
+          console.error(`${key}翻译出错;`, error);
+          jsonValues[key] = {
+            [from]: value,
+            [to]: null,
+          };
+          abnormal.innerHTML = (Number(abnormal.innerHTML) + 1).toString();
+        }
+        current.innerHTML = (Number(current.innerHTML) + 1).toString();
+      }
     }
-    current.innerHTML = (Number(current.innerHTML) + 1).toString();
-  }
+  };
+  await helper(fileData);
   const data = Object.entries(jsonValues).map(([key, val]) => {
     return { index: key, ...val };
   });

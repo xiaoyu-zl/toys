@@ -1,128 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- 用以说明生成工具（如Microsoft FrontPage 4.0）等； -->
-    <!-- <meta name="Generator" content="" /> -->
-    <!-- 向搜索引擎说明你的网页的关键词； -->
-    <meta name="KEYWords" content="翻译，多语言互转" />
-    <!-- 告诉搜索引擎你的站点的主要内容； -->
-    <meta
-      name="DEscription"
-      content="基于有道翻译、百度翻译API多语言转换,上传JSON文件进行目标语言翻译返回目标JSON文件或excel文件。"
-    />
-    <!-- 告诉搜索引擎你的站点的制作的作者； -->
-    <meta name="Author" content="zzl~2023-12-27" />
-    <title>翻译多语言转换</title>
-    <style>
-      .main {
-        width: 500px;
-        margin: 0 auto;
-        .api {
-          margin-bottom: 10px;
-        }
-        .language {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 20px;
-          .qiehuang {
-            width: 50px;
-            height: 36px;
-          }
-        }
-        .form-item {
-          display: flex;
-          align-items: center;
-          margin-top: 10px;
-          > div {
-            min-width: 60px;
-            text-align: right;
-            margin-right: 5px;
-          }
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 用以说明生成工具（如Microsoft FrontPage 4.0）等； -->
+  <!-- <meta name="Generator" content="" /> -->
+  <!-- 向搜索引擎说明你的网页的关键词； -->
+  <meta name="KEYWords" content="翻译，多语言互转" />
+  <!-- 告诉搜索引擎你的站点的主要内容； -->
+  <meta name="DEscription" content="基于有道翻译、百度翻译API多语言转换,上传JSON文件进行目标语言翻译返回目标JSON文件或excel文件。" />
+  <!-- 告诉搜索引擎你的站点的制作的作者； -->
+  <meta name="Author" content="zzl~2023-12-27" />
+  <title>翻译多语言转换</title>
+  <style>
+    .main {
+      width: 500px;
+      margin: 0 auto;
+
+      .api {
+        margin-bottom: 10px;
+      }
+
+      .language {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+
+        .qiehuang {
+          width: 50px;
+          height: 36px;
         }
       }
-    </style>
-    <link href="../home/img/zl.svg" rel="icon" type="image/svg+xml" />
-    <link rel="stylesheet" href="./css/select.css" />
-    <link rel="stylesheet" href="./css/excel.css" />
-    <link rel="stylesheet" href="./css/radio.css" />
-    <link rel="stylesheet" href="./css/input.css" />
-  </head>
 
-  <body>
-    <div class="main">
-      <div class="form-item">
-        <div>appId:</div>
-        <input type="text" value="" class="input appId" placeholder="appId" />
-      </div>
-      <div class="form-item">
-        <div>key:</div>
-        <input type="text" value="" class="input key" placeholder="key" />
-      </div>
-      <div class="api">
-        <div class="radio">
-          <input type="radio" id="api1" name="api" value="youdao" />
-          <div></div>
-          <label for="api1">有道API</label>
-        </div>
-        <div class="radio">
-          <input type="radio" id="api2" name="api" value="baidu" />
-          <div></div>
-          <label for="api2">百度API</label>
-        </div>
-      </div>
+      .form-item {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
 
-      <input type="file" id="files" accept=".json" />
-
-      <div class="language">
-        <select name="department" id="from" class="select_box">
-          <!-- <option value="auto">自动识别</option> -->
-        </select>
-        <img class="qiehuang" src="./img/qiehuang.svg" alt="" />
-        <select name="department" id="to" class="select_box"></select>
-      </div>
-      <div class="btn_s">
-        <div class="btn">JSON生成</div>
-        <div class="btn_excel">Excel生成</div>
-      </div>
-      <div style="margin-top: 20px">
-        需要翻译条数：
-        <span class="totality">0</span><br />
-        已翻译条数：
-        <span class="current">0</span><br />
-        翻译异常：
-        <span class="abnormal">0</span>
-      </div>
-      <div style="margin-top: 20px">
-        上传JSON格式:<br />
-        {<br />
-        "admin.title":'标题',<br />
-        "admin.title1":'标题1',<br />
-        "admin.title2":'标题2',<br />
+        >div {
+          min-width: 60px;
+          text-align: right;
+          margin-right: 5px;
         }
+      }
+    }
+  </style>
+  <link href="../home/img/zl.svg" rel="icon" type="image/svg+xml" />
+  <link rel="stylesheet" href="./css/select.css" />
+  <link rel="stylesheet" href="./css/excel.css" />
+  <link rel="stylesheet" href="./css/radio.css" />
+  <link rel="stylesheet" href="./css/input.css" />
+</head>
+
+<body>
+  <div class="main">
+    <div class="form-item">
+      <div>appId:</div>
+      <input type="text" value="" class="input appId" placeholder="appId" />
+    </div>
+    <div class="form-item">
+      <div>key:</div>
+      <input type="text" value="" class="input key" placeholder="key" />
+    </div>
+    <div class="api">
+      <div class="radio">
+        <input type="radio" id="api1" name="api" value="youdao" />
+        <div></div>
+        <label for="api1">有道API</label>
+      </div>
+      <div class="radio">
+        <input type="radio" id="api2" name="api" value="baidu" />
+        <div></div>
+        <label for="api2">百度API</label>
       </div>
     </div>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"
-      integrity="sha512-dlPw+ytv/6JyepmelABrgeYgHI0O+frEwgfnPdXDTOIZz+eDgfW07QXG02/O8COfivBdGNINy+Vex+lYmJ5rxw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
-      integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./js/radioChange.js" type="module"></script>
-    <script src="./js/select.js"></script>
-    <script src="./js/selectChange.js" type="module"></script>
-    <script src="./js/appKey.js" type="module"></script>
-    <script src="./js/json.js" type="module"></script>
-    <script src="./js/excel.js" type="module"></script>
-    <script src="./utils/index.js" type="module"></script>
-  </body>
+
+    <input type="file" id="files" accept=".json" />
+
+    <div class="language">
+      <select name="department" id="from" class="select_box">
+        <!-- <option value="auto">自动识别</option> -->
+      </select>
+      <img class="qiehuang" src="./img/qiehuang.svg" alt="" />
+      <select name="department" id="to" class="select_box"></select>
+    </div>
+    <div class="btn_s">
+      <div class="btn">JSON生成</div>
+      <div class="btn_excel">Excel生成</div>
+    </div>
+    <div style="margin-top: 20px">
+      需要翻译条数：
+      <span class="totality">0</span><br />
+      已翻译条数：
+      <span class="current">0</span><br />
+      翻译异常：
+      <span class="abnormal">0</span>
+    </div>
+    <div style="margin-top: 20px;color: red;">注意JSON转换会按照原文件结构进行转换，Excel会将数据平铺</div>
+    <div>
+      上传JSON格式:<br />
+      {<br />
+      "admin.title":'标题',<br />
+      "admin.title1":'标题1',<br />
+      "admin.title2":'标题2',<br />
+      }
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"
+    integrity="sha512-dlPw+ytv/6JyepmelABrgeYgHI0O+frEwgfnPdXDTOIZz+eDgfW07QXG02/O8COfivBdGNINy+Vex+lYmJ5rxw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+    integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="./js/radioChange.js" type="module"></script>
+  <script src="./js/select.js"></script>
+  <script src="./js/selectChange.js" type="module"></script>
+  <script src="./js/appKey.js" type="module"></script>
+  <script src="./js/json.js" type="module"></script>
+  <script src="./js/excel.js" type="module"></script>
+  <script src="./utils/index.js" type="module"></script>
+</body>
+
 </html>

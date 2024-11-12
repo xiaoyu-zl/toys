@@ -10,4 +10,19 @@ export const downloadFile = (url, fileName) => {
   aTag.remove();
 };
 
-
+export const calculateLength = (obj) => {
+  let count = 0;
+  const helper = (currentObj) => {
+    for (const [key, value] of Object.entries(currentObj)) {
+      if (typeof value === "object" && value !== null) {
+        // 如果当前值是对象，递归调用
+        helper(value);
+      } else {
+        // 如果不是对象，计数
+        count++;
+      }
+    }
+  };
+  helper(obj);
+  return count;
+};
