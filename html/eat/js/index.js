@@ -1,23 +1,32 @@
 import random from "./random.js";
 import { getLunchOptions } from "./request.js";
 (async () => {
-  let lunchOptions = ["火锅", "烤肉", "麻辣烫", "海鲜", "披萨"];
-  getLunchOptions();
+  const { data } = await getLunchOptions();
+  let lunchOptions = data;
   const { startRandomFoodDisplay, stopRandomFoodDisplay } =
     random(lunchOptions);
   // 随机显示食物
-  let intervalId = null;
   function chooseLunch() {
     const randomIndex = Math.floor(Math.random() * lunchOptions.length);
     document.getElementById("lunchResult").innerText =
       lunchOptions[randomIndex];
   }
-  document.getElementById("toggleButton").onclick = function () {
+  // 点击按钮切换显示食物
+  let toggleButton = document.getElementById("toggleButton");
+  let intervalId = null;
+  let count = 0;
+  toggleButton.onclick = function () {
+    if (count >= 6) {
+      alert("这么作？今天别吃了！");
+      // 隐藏按钮
+      toggleButton.style.display = "none";
+      return;
+    }
     // 停止定时器
     if (intervalId) {
       clearInterval(intervalId);
       intervalId = null;
-      this.value = "开始";
+      this.value = "不行，换一个";
       stopRandomFoodDisplay();
     } else {
       // 开始定时器
@@ -26,5 +35,6 @@ import { getLunchOptions } from "./request.js";
       startRandomFoodDisplay(100, lunchOptions);
       startRandomFoodDisplay(100, lunchOptions);
     }
+    count++;
   };
 })();
