@@ -1,5 +1,5 @@
-import random from "./random.js";
-import { getLunchOptions } from "./request.js";
+import random from "../utils/random.js";
+import { getLunchOptions } from "../api/request.js";
 (async () => {
   const { data } = await getLunchOptions();
   let lunchOptions = data;
