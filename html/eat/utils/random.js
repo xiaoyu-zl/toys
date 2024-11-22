@@ -1,6 +1,6 @@
 export default (lunchOptions) => {
   function getRandomPosition() {
-    const x = Math.floor(Math.random() * window.innerWidth);
+    const x = Math.floor(Math.random() * window.innerWidth - 50);
     const y = Math.floor(Math.random() * window.innerHeight);
     return { x, y };
   }
