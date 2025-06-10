@@ -7,3 +7,10 @@ for (const item of [...linkArrays]) {
   const { toLink } = item.dataset;
   item.href = prefix + toLink + "/";
 }
+const link = document.createElement("link");
+link.href = prefix + "/home/img/zl.svg";
+link.rel = "icon";
+link.type = "image/svg+xml";
+document.head.appendChild(link);
+
+
