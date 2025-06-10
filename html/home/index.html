@@ -4,104 +4,16 @@
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>HOME</title>
-    <link href="../home/img/zl.svg" rel="icon" type="image/svg+xml" />
-    <style>
-      a {
-        text-decoration: none; /* 去除默认的下划线 */
-        outline: none; /* 去除旧版浏览器的点击后的外虚线框 */
-        color: #000; /* 去除默认的颜色和点击后变化的颜色 */
-        cursor: pointer;
-        opacity: 0.6;
+    <link rel="stylesheet" href="../home/css/index.css" />
+    <link rel="stylesheet" href="../home/css/theme.css" />
 
-        &:hover {
-          opacity: 1;
-        }
-      }
-
-      .card {
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        border-radius: 10px;
-        overflow: hidden;
-        padding: 2.5rem 1.75rem;
-      }
-
-      .main {
-        width: calc(100% - 3.5rem);
-        padding: 2.5rem 1.75rem;
-      }
-
-      .edition {
-        margin: 0;
-        margin-bottom: 2rem;
-      }
-
-      @media screen and (min-width: 650px) {
-        .edition {
-          width: 1050px;
-          margin: 0 auto;
-        }
-      }
-
-      .toys {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      .toy {
-        flex: 0 0 calc((100% - 10px) / 3 - 2rem);
-        height: 80px;
-        margin: 0 5px 15px 0;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        border-radius: 10px;
-        overflow: hidden;
-        padding: 1rem 1rem 0.5rem;
-        text-decoration: none;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        align-content: space-between;
-
-        .toy-title {
-          font-size: 1.125rem;
-        }
-
-        .toy-content {
-          flex: 1;
-          font-size: 12px;
-          opacity: 0.5;
-          text-indent: 1.5em;
-        }
-
-        .toy-date {
-          opacity: 0.5;
-          font-size: 12px;
-        }
-      }
-
-      .toy:nth-child(3n) {
-        margin-right: 0;
-      }
-      .slide-enter {
-        --enter-stage: 0;
-        --enter-step: 90ms;
-        --enter-initial: 0ms;
-        animation: slide-enter 1s both 1;
-        animation-delay: calc(
-          var(--enter-initial) + var(--enter-stage) * var(--enter-step)
-        );
-      }
-      @keyframes slide-enter {
-        0% {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-    </style>
   </head>
-  <body></body>
+  <body>
+    <canvas class="plum"></canvas>
+    <div class="toggle">
+      <img src="../home/img/sun.svg" alt="" class="toggle_icon" />
+    </div>
+    <script src="../home/js/plum.js" type="module"></script>
+    <script src="../home/js/toggle.js"></script>
+  </body>
 </html>

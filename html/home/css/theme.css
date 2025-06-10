@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+/* 基础（白色）模式变量 light */
+html {
+  --textColor: #000;
+  --bgColor: #fff;
+  --hoverColor: #ccc;
+  --strokeStyle: #00000033;
+  --c-scrollbar: #eee;
+  --c-scrollbar-hover: #bbb;
+  color: var(--textColor);
+  background-color: var(--bgColor);
+  --box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+}
+
+/* 黑色模式变量 dark */
+html.dark {
+  --textColor: #fff;
+  --bgColor: #050505;
+  --hoverColor: #666;
+  --strokeStyle: #ffffff33;
+  --c-scrollbar: #111;
+  --c-scrollbar-hover: #222;
+  --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.plum {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+  .toggle_icon {
+    width: 20px;
+    height: 20px;
+    filter: drop-shadow(var(--textColor) 0);
+  }
+}
+
+@keyframes clip {
+  from {
+    clip-path: circle(0px at var(--x) var(--y));
+  }
+
+  to {
+    clip-path: circle(var(--endRadius) at var(--x) var(--y));
+  }
+}
+
+html:not(.dark)::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html:not(.dark)::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  animation: clip 0.5s ease-in;
+}
+
+@keyframes dark {
+  from {
+    clip-path: circle(var(--endRadius) at var(--x) var(--y));
+  }
+
+  to {
+    clip-path: circle(0px at var(--x) var(--y));
+  }
+}
+
+.dark::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  animation: dark 0.5s ease-in;
+}
