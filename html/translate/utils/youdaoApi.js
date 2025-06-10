@@ -4,18 +4,14 @@ import { appId, key } from "../js/appKey.js";
 const youDaotranslation = (query) => {
   return new Promise((resolve, reject) => {
     fetch(
-      `${prefix}/translate/youDaoApi?q=${query}&appid=${appId}&key=${key}&from=${from}&to=${to}`,
+      `${prefix}/translate/youDaoApi?q=${query}&appid=${appId}&key=${key}&from=${from}&to=${to}`
     )
       .then((res) => res.json())
       .then((res) => {
-        setTimeout(() => {
-          resolve(res);
-        }, 1000);
+        resolve(res);
       })
       .catch((error) => {
-        setTimeout(() => {
-          reject(error);
-        }, 1000);
+        reject(error);
       });
   });
 };

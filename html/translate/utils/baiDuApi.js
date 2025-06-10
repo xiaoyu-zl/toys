@@ -8,14 +8,10 @@ const baiDutranslation = (query) => {
     )
       .then((res) => res.json())
       .then((res) => {
-        setTimeout(() => {
           resolve(res);
-        }, 1000);
       })
       .catch((error) => {
-        setTimeout(() => {
           reject(error);
-        }, 1000);
       });
   });
 };
