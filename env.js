@@ -1,11 +1,16 @@
-const argvs = process.argv.find((i) => i.includes("NODE_ENV"));
+const ENV = process.argv.find((i) => i.includes("NODE_ENV"));
 let NODE_ENV = "dev";
-if (!!argvs) {
-  NODE_ENV = argvs.split("=")[1];
+if (!!ENV) {
+  NODE_ENV = ENV?.split("=")[1];
+}
+const BASE = process.argv.find((i) => i.includes("NODE_BASE"));
+let NODE_BASE = "";
+if (!!BASE) {
+  NODE_BASE = BASE?.split("=")[1];
 }
 
 
-
 module.exports = {
-  NODE_ENV
+  NODE_ENV,
+  NODE_BASE
 };

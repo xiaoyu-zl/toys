@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { resolve, sep } = require("path");
-const { NODE_ENV } = require("../env");
+const { NODE_ENV, NODE_BASE } = require("../env");
 let env = NODE_ENV === "dev";
 // 传入一个html字符串 利用正则把title标签内容过滤出来
 const extractTitle = (htmlString) => {
@@ -78,21 +78,58 @@ const getPath = (path) => {
 };
 // 获取homeHTML
 const initHomeHtml = (html, homeOptions) => {
+  //head
+  html = insertStringAfterTag(
+    html,
+    `
+    <link rel="icon" href="${NODE_BASE}/home/img/zl.svg"  type="image/svg+xml" />
+    <link rel="stylesheet" href="${NODE_BASE}/home/css/theme.css" />
+    <link rel="stylesheet" href="${NODE_BASE}/home/css/index.css" />
+    `,
+    "head"
+  );
+  // body插入
   const jsPath = getPath("/homeScript.js");
   const socketPath = getPath("/htmlSocket.js");
   const js = fs.readFileSync(jsPath, "utf8");
   const socket = env ? fs.readFileSync(socketPath, "utf8") : "";
   const bodyItem = getbodyItem(homeOptions);
-  const scriptCode = ` <script defer>${js}${socket}</script>`;
+  const scriptCode = `
+    <canvas class="plum"></canvas>
+    <div class="toggle">
+      <img src="${NODE_BASE}/home/img/sun.svg" alt="" class="toggle_icon" />
+    </div>
+    <script src="${NODE_BASE}/home/js/plum.js" type="module"></script>
+    <script src="${NODE_BASE}/home/js/toggle.js"></script>
+    <script defer>${js}${socket}</script>
+    `;
   return insertStringAfterTag(html, bodyItem + scriptCode);
 };
 // 常规html
 const initHtml = (html) => {
+  //head
+  html = insertStringAfterTag(
+    html,
+    `
+    <link rel="icon" href="${NODE_BASE}/home/img/zl.svg"  type="image/svg+xml" />
+    <link rel="stylesheet" href="${NODE_BASE}/home/css/theme.css" />
+    `,
+    "head"
+  );
+  // body插入
   const jsPath = getPath("/htmlScript.js");
   const socketPath = getPath("/htmlSocket.js");
   const js = fs.readFileSync(jsPath, "utf8");
   const socket = env ? fs.readFileSync(socketPath, "utf8") : "";
-  const scriptCode = ` <script defer>${js}${socket}</script>`;
+  const scriptCode = `
+    <canvas class="plum"></canvas>
+    <div class="toggle">
+      <img src="${NODE_BASE}/home/img/sun.svg" alt="" class="toggle_icon" />
+    </div>
+    <script src="${NODE_BASE}/home/js/plum.js" type="module"></script>
+    <script src="${NODE_BASE}/home/js/toggle.js"></script>
+    <script defer>${js}${socket}</script>
+    `;
   return insertStringAfterTag(html, scriptCode);
 };
 module.exports = {

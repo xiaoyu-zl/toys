@@ -4,9 +4,9 @@
   "description": "小玩具 | 小工具",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js NODE_ENV=dev",
-    "dev:prod": "nodemon index.js NODE_ENV=prod",
-    "prod": "pm2 start index.js --name toys -- NODE_ENV=prod",
+    "dev": "nodemon index.js NODE_ENV=dev ",
+    "dev:prod": "nodemon index.js NODE_ENV=prod NODE_BASE=/toys",
+    "prod": "pm2 start index.js --name toys -- NODE_ENV=prod -- NODE_BASE=/toys",
     "stop": "pm2 stop toys",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
