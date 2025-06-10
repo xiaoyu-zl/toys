@@ -6,7 +6,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #212121;
   width: 100vw;
   height: 100vh;
 }
@@ -37,7 +36,7 @@ body {
   height: 7px;
   width: 45px;
   border-radius: 4px;
-  box-shadow: 0 5px 0 #f2f2f2, -35px 50px 0 #f2f2f2, -70px 95px 0 #f2f2f2;
+  box-shadow: 0 5px 0 var( --textColor), -35px 50px 0 var( --textColor), -70px 95px 0 var( --textColor);
   animation: loading-step 1s ease-in-out infinite;
 }
 
@@ -61,12 +60,12 @@ body {
 
 @keyframes loading-step {
   0% {
-    box-shadow: 0 10px 0 rgba(0, 0, 0, 0), 0 10px 0 #f2f2f2,
-      -35px 50px 0 #f2f2f2, -70px 90px 0 #f2f2f2;
+    box-shadow: 0 10px 0 rgba(0, 0, 0, 0), 0 10px 0 var( --textColor),
+      -35px 50px 0 var( --textColor), -70px 90px 0 var( --textColor);
   }
 
   100% {
-    box-shadow: 0 10px 0 #f2f2f2, -35px 50px 0 #f2f2f2, -70px 90px 0 #f2f2f2,
+    box-shadow: 0 10px 0 var( --textColor), -35px 50px 0 var( --textColor), -70px 90px 0 var( --textColor),
       -70px 90px 0 rgba(0, 0, 0, 0);
   }
 }

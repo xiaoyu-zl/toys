@@ -1,19 +1,23 @@
 .btn_s {
+    margin-top: 20px;
   display: flex;
   align-items: center;
+  gap: 10px;
   > div {
-    width: 100px;
-    height: 30px;
-    margin-top: 20px;
-    background-color: rgb(228, 211, 205);
-    border: 1px solid rgb(192, 192, 192);
-    border-radius: 20px;
-    line-height: 30px;
-    font-size: 15px;
-    text-align: center;
-    cursor: pointer;
-    & ~ div {
-      margin-left: 1rem;
-    }
+  padding: 0.7em 1.7em;
+  font-size: 14px;
+  border-radius: 0.5em;
+  background: var(--bgColor);
+  color: var(--textColor);
+  cursor: pointer;
+  border: 1px solid var(--borderColor);
+  transition: all 0.3s;
+  box-shadow: var(--box-shadow)  0px 8px 24px;
+  &:hover {
+    border: 1px solid white;
+  }
+  &:active {
+    box-shadow: 4px 4px 12px var(--box-shadow), -4px -4px 12px var(--textColor);
+  }
   }
 }

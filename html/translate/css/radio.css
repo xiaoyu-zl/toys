@@ -31,12 +31,12 @@
   /*注意层级关系，如果不把div层级设为最低，会遮挡住input而不能单选*/
   width: 20px;
   height: 20px;
-  border: 1px solid #3582e9;
+  border: 1px solid #2996D9;
   border-radius: 100%;
 }
 
 .radio input:checked + div {
-  background: #3582e9;
+  background: #2996D9;
 }
 
 .radio input:checked + div::after {

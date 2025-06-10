@@ -2,10 +2,15 @@
   width: 100%;
   height: 32px;
   padding: 0 12px;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--borderColor);
   border-radius: 5px;
+  background-color: var(--bgColor);
+  color: var(--textColor);
   &:hover {
-    border-color: #999;
+    border-color: var(--hoverColor);
+  }
+    &::placeholder {
+    color: var(--hoverColor);
   }
   &:focus {
     outline: none;
@@ -36,37 +41,37 @@ textarea {
   padding: 5px 15px;
   line-height: 1.5;
   box-sizing: border-box;
-  color: #606266;
-  background-color: #fff;
-  border: 1px solid #dcdfe6;
+  background-color: var(--bgColor);
+  color: var(--textColor);
+  border: 1px solid var(--borderColor);
   border-radius: 4px;
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   &::placeholder {
-    color: #c0c4cc;
+    color: var(--hoverColor);
   }
   &:hover {
-    border-color: #c0c4cc;
+    border-color: var(--hoverColor);
   }
   &:focus {
-    border-color: #3677f0;
+    border-color: #42b983;
   }
 }
 
 .btn {
-  color: #090909;
   padding: 0.7em 1.7em;
   font-size: 14px;
   border-radius: 0.5em;
-  background: #e8e8e8;
+  background: var(--bgColor);
+  color: var(--textColor);
   cursor: pointer;
-  border: 1px solid #e8e8e8;
+  border: 1px solid var(--borderColor);
   transition: all 0.3s;
-  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+  box-shadow: var(--box-shadow)  0px 8px 24px;
   &:hover {
     border: 1px solid white;
   }
   &:active {
-    box-shadow: 4px 4px 12px #c5c5c5, -4px -4px 12px #ffffff;
+    box-shadow: 4px 4px 12px var(--box-shadow), -4px -4px 12px var(--textColor);
   }
 }
 
@@ -98,7 +103,7 @@ textarea {
   }
 }
 .card {
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  box-shadow: var(--box-shadow) 0px 8px 24px;
   border-radius: 10px;
   overflow: hidden;
   padding: 2.5rem 1.75rem;
@@ -109,8 +114,8 @@ textarea {
   left: 50%;
   transform: translate(-50%, -50%);
   display: none;
-  background-color: #ffffff;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background-color: var(--bgColor);
+  box-shadow: var(--box-shadow) 0px 8px 24px;
   border-radius: 10px;
   overflow: hidden;
   padding: 0.5rem 1rem;

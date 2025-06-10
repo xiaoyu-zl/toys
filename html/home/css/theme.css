@@ -12,7 +12,8 @@ html {
   --c-scrollbar-hover: #bbb;
   color: var(--textColor);
   background-color: var(--bgColor);
-  --box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+  --box-shadow: rgba(0, 0, 0, 0.2);
+  --borderColor: #ddd;
 }
 
 /* 黑色模式变量 dark */
@@ -23,7 +24,8 @@ html.dark {
   --strokeStyle: #ffffff33;
   --c-scrollbar: #111;
   --c-scrollbar-hover: #222;
-  --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  --box-shadow: rgba(149, 157, 165, 0.2);
+  --borderColor: #333;
 }
 
 .plum {
