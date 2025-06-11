@@ -1,36 +1,18 @@
-const init = async () => {
+const themeScript = document.querySelector("#theme-script");
+window.$env = JSON.parse(
+  !!themeScript.dataset.env ? themeScript.dataset.env : ""
+);
+let getTheme = localStorage.getItem("theme");
+let theme = getTheme ? getTheme == "dark" : false;
+let moonSvg = "./global/img/moon.svg";
+let sunSvg = "./global/img/sun.svg";
+if (theme) {
+  document.documentElement.classList.add("dark");
+}
+window.onload = () => {
   let toggle = document.querySelector(".toggle");
   let toggle_icon = document.querySelector(".toggle_icon");
-  let getTheme = localStorage.getItem("theme");
-  let theme = getTheme ? getTheme == "dark" : false;
-  const svgToBs64 = async (src) => {
-    const res = await fetch(src);
-    const text = await res.text();
-    // 对SVG内容进行base64编码
-    const base64 = btoa(unescape(encodeURIComponent(text)));
-    return `data:image/svg+xml;base64,${base64}`;
-  };
-  let moonSvg = await svgToBs64(prefix + "/home/img/moon.svg");
-  let sunSvg = await svgToBs64(prefix + "/home/img/sun.svg");
-  if (theme) {
-    document.documentElement.classList.add("dark");
-    toggle_icon.src = theme ? moonSvg : sunSvg;
-  }
-  window.onstorage = (e) => {
-    // 如果存储的key为message，且存储的from属性为theme
-    if (e.key == "message") {
-      // 解析存储的值
-      let {
-        from: { key },
-      } = JSON.parse(e.newValue) || e.newValue;
-      if (key !== "theme") return;
-      //设置主题
-      setHTMLProperty();
-      // 切换theme的值
-      theme = !theme;
-      toggle_icon.src = theme ? moonSvg : sunSvg;
-    }
-  };
+  toggle_icon.src = theme ? moonSvg : sunSvg;
   toggle.addEventListener("click", () => {
     // 设置主题
     setHTMLProperty();
@@ -50,6 +32,21 @@ const init = async () => {
       })
     );
   });
+  window.onstorage = (e) => {
+    // 如果存储的key为message，且存储的from属性为theme
+    if (e.key == "message") {
+      // 解析存储的值
+      let {
+        from: { key },
+      } = JSON.parse(e.newValue) || e.newValue;
+      if (key !== "theme") return;
+      //设置主题
+      setHTMLProperty();
+      // 切换theme的值
+      theme = !theme;
+      toggle_icon.src = theme ? moonSvg : sunSvg;
+    }
+  };
 
   // 修改html属性 style变量及class
   const setHTMLProperty = () => {
@@ -83,7 +80,4 @@ const init = async () => {
       document.documentElement.classList.toggle("dark");
     }
   };
-};
-window.onload = () => {
-  init();
 };

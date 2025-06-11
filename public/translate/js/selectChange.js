@@ -25,7 +25,6 @@ toDom.addEventListener("change", (e) => {
 
 window.addEventListener('load', function() {
   init();
-
 });
 
 export { from, fromText, to, toText, init };

@@ -1,13 +1,8 @@
-let host = ["localhost", "127.0.0.1"];
-const { protocol, host: LocationHost } = location;
-const inHost = `${protocol}//${LocationHost}`;
-let prefix = inHost + (host.includes(window.location.hostname) ? "" : "/toys");
+const { protocol, host } = location;
+const inHost = `${protocol}//${host}`;
+let prefix = inHost + $env.NODE_BASE;
 const linkArrays = document.querySelectorAll("a[data-to-link]");
 for (const item of [...linkArrays]) {
   const { toLink } = item.dataset;
-  item.href = prefix + toLink + "/";
+  item.href = prefix + toLink;
 }
-
-
-
-

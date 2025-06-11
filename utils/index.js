@@ -1,6 +1,7 @@
 const fs = require("fs");
 const { resolve, sep } = require("path");
-const { NODE_ENV, NODE_BASE } = require("../env");
+const ENV = require("../env");
+let { NODE_ENV, NODE_BASE } = ENV;
 let env = NODE_ENV === "dev";
 // 传入一个html字符串 利用正则把title标签内容过滤出来
 const extractTitle = (htmlString) => {
@@ -76,18 +77,18 @@ const getbodyItem = (homeOptions) => {
 const getPath = (path) => {
   return (__dirname + path).replaceAll("/", sep).replaceAll("\\", sep);
 };
+let themeGlobal = `
+    <link rel="icon" href="${NODE_BASE}/global/img/zl.svg"  type="image/svg+xml" />
+    <link rel="stylesheet" href="${NODE_BASE}/global/css/theme.css" />
+    <script src="${NODE_BASE}/global/js/plum.js" type="module"></script>
+    <script id="theme-script" data-env=${JSON.stringify(
+      ENV
+    )} src="${NODE_BASE}/global/js/toggle.js"></script>
+    `;
 // 获取homeHTML
 const initHomeHtml = (html, homeOptions) => {
   //head
-  html = insertStringAfterTag(
-    html,
-    `
-    <link rel="icon" href="${NODE_BASE}/home/img/zl.svg"  type="image/svg+xml" />
-    <link rel="stylesheet" href="${NODE_BASE}/home/css/theme.css" />
-    <link rel="stylesheet" href="${NODE_BASE}/home/css/index.css" />
-    `,
-    "head"
-  );
+  html = insertStringAfterTag(html, themeGlobal, "head");
   // body插入
   const jsPath = getPath("/homeScript.js");
   const socketPath = getPath("/htmlSocket.js");
@@ -97,10 +98,8 @@ const initHomeHtml = (html, homeOptions) => {
   const scriptCode = `
     <canvas class="plum"></canvas>
     <div class="toggle">
-      <img src="${NODE_BASE}/home/img/sun.svg" alt="" class="toggle_icon" />
+      <img src="./global/img/sun.svg" alt="" class="toggle_icon" />
     </div>
-    <script src="${NODE_BASE}/home/js/plum.js" type="module"></script>
-    <script src="${NODE_BASE}/home/js/toggle.js"></script>
     <script defer>${js}${socket}</script>
     `;
   return insertStringAfterTag(html, bodyItem + scriptCode);
@@ -108,14 +107,7 @@ const initHomeHtml = (html, homeOptions) => {
 // 常规html
 const initHtml = (html) => {
   //head
-  html = insertStringAfterTag(
-    html,
-    `
-    <link rel="icon" href="${NODE_BASE}/home/img/zl.svg"  type="image/svg+xml" />
-    <link rel="stylesheet" href="${NODE_BASE}/home/css/theme.css" />
-    `,
-    "head"
-  );
+  html = insertStringAfterTag(html, themeGlobal, "head");
   // body插入
   const jsPath = getPath("/htmlScript.js");
   const socketPath = getPath("/htmlSocket.js");
@@ -124,10 +116,8 @@ const initHtml = (html) => {
   const scriptCode = `
     <canvas class="plum"></canvas>
     <div class="toggle">
-      <img src="${NODE_BASE}/home/img/sun.svg" alt="" class="toggle_icon" />
+      <img src="./global/img/sun.svg" alt="" class="toggle_icon" />
     </div>
-    <script src="${NODE_BASE}/home/js/plum.js" type="module"></script>
-    <script src="${NODE_BASE}/home/js/toggle.js"></script>
     <script defer>${js}${socket}</script>
     `;
   return insertStringAfterTag(html, scriptCode);

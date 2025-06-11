@@ -76,7 +76,7 @@ try {
     // 获取html内容
     let returnHtml = initHomeHtml(
       fs.readFileSync(__dirname + homeHtml[1], "utf8"),
-      htmlDestArrays,
+      htmlDestArrays
     );
     res.setHeader("Content-Type", "text/html");
     res.send(returnHtml);
@@ -91,7 +91,7 @@ app.use("/job", job);
 const eat = require("./router/eat/eat");
 app.use("/eat", eat);
 // TODO 静态资源中间件挂载顺序在接口定义之前执行优先级会比接口高。
-app.use(express.static("html"));
+app.use(express.static("public"));
 app.listen(5478, () => {
   // 重新启动1.5秒后发现服务 发送通知给 WebSocket 客户端
   if (NODE_ENV === "dev") {
