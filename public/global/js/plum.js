@@ -68,7 +68,14 @@ f.start = () => {
     () => step(-5, randomMiddle() * size.height, 0),
     () => step(size.width + 5, randomMiddle() * size.height, r180),
   ];
-  if (size.width < 500) steps = steps.slice(0, 2);
+  if (size.width < 600) steps = steps.slice(0, 2);
 };
 
 f.start();
+
+window.addEventListener("resize", () => {
+  size.width = window.innerWidth;
+  size.height = window.innerHeight;
+    const { ctx } = initCanvas(canvas, size.width, size.height);
+  f.start()
+});

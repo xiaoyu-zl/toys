@@ -36,6 +36,19 @@ if (NODE_ENV === "dev") {
       }
     }
   });
+  // 监听 HTML 文件的变化
+  const publicWatcher = chokidar.watch("public", {
+    ignored: /[\/\\]\./,
+    persistent: true,
+  });
+  publicWatcher.on("change", () => {
+    // 发送消息给所有连接的客户端
+    for (const client of clients) {
+      if (client.readyState === client.OPEN) {
+        client.send("reload");
+      }
+    }
+  });
 }
 const { readDirSync } = require("./registered/htmlRegistered");
 let html = readDirSync("html");
