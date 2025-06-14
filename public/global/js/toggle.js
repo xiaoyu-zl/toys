@@ -3,15 +3,13 @@ window.$env = JSON.parse(
   !!themeScript.dataset.env ? themeScript.dataset.env : ""
 );
 let getTheme = localStorage.getItem("theme");
-let theme = getTheme ? getTheme == "dark" : false;
+let theme = getTheme
+  ? getTheme == "dark"
+  : window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
 let moonSvg = "./global/img/moon.svg";
 let sunSvg = "./global/img/sun.svg";
-if (
-  theme ||
-  (!getTheme &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches)
-) {
+if (theme) {
   document.documentElement.classList.add("dark");
 }
 window.onload = () => {
