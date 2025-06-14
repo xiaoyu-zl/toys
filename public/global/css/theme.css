@@ -54,39 +54,20 @@ html.dark {
   }
 }
 
-@keyframes clip {
-  from {
-    clip-path: circle(0px at var(--x) var(--y));
-  }
-
-  to {
-    clip-path: circle(var(--endRadius) at var(--x) var(--y));
-  }
-}
-
-html:not(.dark)::view-transition-old(root) {
+::view-transition-old(root),
+::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
-
-html:not(.dark)::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-  animation: clip 0.5s ease-in;
+::view-transition-old(root) {
+  z-index: 1;
 }
-
-@keyframes dark {
-  from {
-    clip-path: circle(var(--endRadius) at var(--x) var(--y));
-  }
-
-  to {
-    clip-path: circle(0px at var(--x) var(--y));
-  }
+::view-transition-new(root) {
+  z-index: 2147483646;
 }
-
-.dark::view-transition-old(root) {
-  animation: none;
-  mix-blend-mode: normal;
-  animation: dark 0.5s ease-in;
+html.dark::view-transition-old(root) {
+  z-index: 2147483646;
+}
+html.dark::view-transition-new(root) {
+  z-index: 1;
 }

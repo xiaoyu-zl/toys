@@ -6,19 +6,23 @@ let getTheme = localStorage.getItem("theme");
 let theme = getTheme ? getTheme == "dark" : false;
 let moonSvg = "./global/img/moon.svg";
 let sunSvg = "./global/img/sun.svg";
-if (theme) {
+if (
+  theme ||
+  (!getTheme &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches)
+) {
   document.documentElement.classList.add("dark");
 }
 window.onload = () => {
   let toggle = document.querySelector(".toggle");
-  let toggle_icon = document.querySelector(".toggle_icon");
-  toggle_icon.src = theme ? moonSvg : sunSvg;
-  toggle.addEventListener("click", () => {
+  let toggleIcon = document.querySelector(".toggle_icon");
+  toggleIcon.src = theme ? moonSvg : sunSvg;
+  toggle.addEventListener("click", (e) => {
+    const { clientX, clientY } = e;
     // 设置主题
-    setHTMLProperty();
     theme = !theme;
-    toggle_icon.src = theme ? moonSvg : sunSvg;
-    // 保存消息到 localStorage 中
+    setHTMLProperty(clientX, clientY, theme);
     localStorage.setItem("theme", theme ? "dark" : "light");
     localStorage.setItem(
       "message",
@@ -26,7 +30,9 @@ window.onload = () => {
         message: "消息",
         from: {
           key: "theme",
-          theme: theme ? "dark" : "light",
+          theme: theme,
+          x: clientX,
+          y: clientY,
         },
         date: Date.now(),
       })
@@ -37,43 +43,42 @@ window.onload = () => {
     if (e.key == "message") {
       // 解析存储的值
       let {
-        from: { key },
+        from: { key, theme: isDark, x, y },
       } = JSON.parse(e.newValue) || e.newValue;
       if (key !== "theme") return;
       //设置主题
-      setHTMLProperty();
+      setHTMLProperty(x, y, isDark);
       // 切换theme的值
-      theme = !theme;
-      toggle_icon.src = theme ? moonSvg : sunSvg;
     }
   };
-
   // 修改html属性 style变量及class
-  const setHTMLProperty = () => {
-    //获取dom坐标
-    const { height, width, x: X, y: Y } = toggle.getBoundingClientRect();
-    const x = width / 2 + X;
-    const y = height / 2 + Y;
-    const { style } = document.documentElement;
-    // 动画结束位置
-    const endRadius = Math.hypot(
-      Math.max(x, innerWidth - x),
-      Math.max(y, innerHeight - y)
-    );
-    const obj = {
-      x,
-      y,
-      endRadius,
-    };
-    // 设置HTML style的属性
-    for (const [key, val] of Object.entries(obj)) {
-      style.setProperty(`--${key}`, val + "px");
-    }
-    // 如果document有startViewTransition方法
+  const setHTMLProperty = (clientX, clientY, isDark) => {
+    toggleIcon.src = isDark ? moonSvg : sunSvg;
     if (document?.startViewTransition) {
-      // 调用startViewTransition方法，并传入一个函数，用于切换dark属性
-      document?.startViewTransition(() => {
+      const transition = document?.startViewTransition(() => {
         document.documentElement.classList.toggle("dark");
+      });
+      transition.ready.then(() => {
+        const endRadius = Math.hypot(
+          Math.max(clientX, innerWidth - clientX),
+          Math.max(clientY, innerHeight - clientY)
+        );
+        const clipPath = [
+          `circle(0px at ${clientX}px ${clientY}px)`,
+          `circle(${endRadius}px at ${clientX}px ${clientY}px)`,
+        ];
+        document.documentElement.animate(
+          {
+            clipPath: isDark ? clipPath.reverse() : clipPath,
+          },
+          {
+            duration: 450,
+            easing: "ease-in",
+            pseudoElement: isDark
+              ? "::view-transition-old(root)"
+              : "::view-transition-new(root)",
+          }
+        );
       });
     } else {
       // 否则直接切换dark属性
